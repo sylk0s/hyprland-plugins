@@ -75,10 +75,9 @@ COverview::COverview(PHLWORKSPACE startedOn_, bool swipe_) : startedOn(startedOn
                 getWorkspaceIDFromString("r" + ((int64_t)i - backtracked < 0 ? std::to_string((int64_t)i - backtracked) : "+" + std::to_string((int64_t)i - backtracked)), s);
             image.workspaceID = currentID;
         }
-    } else if (method[1] == "static"]) {
-        int firstID = 1;
+    } else if (method[0] == "static"]) {
 
-        for (size_t i = firstID - 1; i < SIDE_LENGTH * SIDE_LENGTH; ++i) {
+        for (size_t i = 0; i < SIDE_LENGTH * SIDE_LENGTH; ++i) {
           auto& image = images[i];
           std::string s;
           currentID = getWorkspaceIDFromString("r-" + std::to_string(i), s);
