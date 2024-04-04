@@ -52,7 +52,8 @@ COverview::COverview(PHLWORKSPACE startedOn_, bool swipe_) : startedOn(startedOn
 
     images.resize(SIDE_LENGTH * SIDE_LENGTH);
 
-    if (methodCenter) {
+    switch (method[0]) {
+      case "center":
         int currentID = methodStartID;
         int firstID   = currentID;
 
@@ -75,7 +76,19 @@ COverview::COverview(PHLWORKSPACE startedOn_, bool swipe_) : startedOn(startedOn
                 getWorkspaceIDFromString("r" + ((int64_t)i - backtracked < 0 ? std::to_string((int64_t)i - backtracked) : "+" + std::to_string((int64_t)i - backtracked)), s);
             image.workspaceID = currentID;
         }
-    } else {
+        break;
+    case "static":
+        int firstID = 1;
+
+        for (size_t i = firstID - 1; i < SIDE_LENGTH * SIDE_LENGTH; ++i) {
+          auto& image = images[i];
+          std::string s;
+          currentID = getWorkspaceIDFromString("r-" + std::to_string(i), s);
+          image.workspaceID = currentID;
+        }
+        break;
+    
+    default:
         int currentID         = methodStartID;
         images[0].workspaceID = currentID;
 
