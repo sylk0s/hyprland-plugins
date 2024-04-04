@@ -52,8 +52,7 @@ COverview::COverview(PHLWORKSPACE startedOn_, bool swipe_) : startedOn(startedOn
 
     images.resize(SIDE_LENGTH * SIDE_LENGTH);
 
-    switch (method[0]) {
-      case "center":
+    if (methodCenter) {
         int currentID = methodStartID;
         int firstID   = currentID;
 
@@ -76,8 +75,7 @@ COverview::COverview(PHLWORKSPACE startedOn_, bool swipe_) : startedOn(startedOn
                 getWorkspaceIDFromString("r" + ((int64_t)i - backtracked < 0 ? std::to_string((int64_t)i - backtracked) : "+" + std::to_string((int64_t)i - backtracked)), s);
             image.workspaceID = currentID;
         }
-        break;
-    case "static":
+    } else if (method[1] == "static"]) {
         int firstID = 1;
 
         for (size_t i = firstID - 1; i < SIDE_LENGTH * SIDE_LENGTH; ++i) {
@@ -86,9 +84,7 @@ COverview::COverview(PHLWORKSPACE startedOn_, bool swipe_) : startedOn(startedOn
           currentID = getWorkspaceIDFromString("r-" + std::to_string(i), s);
           image.workspaceID = currentID;
         }
-        break;
-    
-    default:
+      } else {
         int currentID         = methodStartID;
         images[0].workspaceID = currentID;
 
@@ -223,8 +219,6 @@ COverview::COverview(PHLWORKSPACE startedOn_, bool swipe_) : startedOn(startedOn
 
 void COverview::redrawID(int id, bool forcelowres) {
     if (pMonitor->activeWorkspace != startedOn && !closing) {
-        // likely user changed.
-        onWorkspaceChange();
     }
 
     blockOverviewRendering = true;
